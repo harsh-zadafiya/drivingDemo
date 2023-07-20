@@ -31,9 +31,9 @@ class useController {
         });
       }
 
-      res.render("login", { errors: { msg: "User is Found" }, req });
+      res.render("login", { errors: { msg: "User Not Found" }, req });
     } catch (error) {
-      res.render("login", { errors: { msg: "User not found" }, req });
+      res.render("login", { errors: { msg: "User Not found" }, req });
       console.error(error);
     }
   };
