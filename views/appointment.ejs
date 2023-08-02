@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appointment Page</title>
+</head>
+
+<body>
+  <%- include('./partials/navbar.ejs') %>
+    <main class="container">
+      <section class="mx-sm-5">
+        <h1 class="text-center mt-5">Add Appointments</h1>
+        <section class="mx-sm-5 mb-5 pb-5">
+          <% if(typeof errors=="object" && errors.msg) {%>
+            <div class="alert alert-warning mt-1">
+              <%= errors.msg %>
+            </div>
+            <% } %>
+              <% if(typeof success=="object" && success.msg) {%>
+                <div class="alert alert-success mt-1">
+                  <%= success.msg %>
+                </div>
+                <% } %>
+                  <form action="/appointment" class="row g-3 mt-3" method="post">
+                    <div class="col-md-12">
+                      <label for="date" class="form-label">Date:</label>
+                      <input type="date" class="form-control" id="date" name="date" placeholder="Enter Date" required
+                        onchange="validate()" />
+                      <% if(typeof errors=="object" && errors.date) {%>
+                        <div class="alert alert-danger mt-1">
+                          <%= errors.date %>
+                        </div>
+                        <% } %>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="time" id="slot" class="form-label">Select Time Slot:</label>
+                      <select id="time" name="time" multiple class="form-select" aria-label="Select Time Slot" required>
+                        <% for(var i=0; i <list.length; i++) { %>
+                          <option value="<%= list[i].time %>">
+                            <%= list[i].time %>
+                          </option>
+                          <% } %>
+                      </select>
+                      <% if(typeof errors=="object" && errors.time) {%>
+                        <div class="alert alert-danger mt-1">
+                          <%= errors.time %>
+                        </div>
+                        <% } %>
+                    </div>
+                    <div class="col-12">
+                      <button class="btn btn-secondary" type="submit">Add</button>
+                    </div>
+                  </form>
+        </section>
+        <% if(typeof allApts=="object" && allApts.length> 0) {%>
+          <section class="mx-sm-5 mb-5 pb-5">
+            <h1 class="text-center mt-5">All Appointments</h1>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(var i=0; i < allApts.length; i++) { %>
+                    <tr>
+                      <th scope="row">
+                        <%= i + 1 %>
+                      </th>
+                      <td>
+                        <%= allApts[i].Date %>
+                      </td>
+                      <td>
+                        <%= allApts[i].Time %>
+                      </td>
+                      <td>
+                        <% if(!allApts[i].isDisabled) {%>
+                          <a href="?disableId=<%= allApts[i]._id %>&isDisabled=true" class="btn btn-outline-secondary">
+                            Disable</button>
+                            <%} else {%>
+                              <a href="?disableId=<%= allApts[i]._id %>&isDisabled=false"
+                                class="btn btn-outline-success">
+                                Enable</button>
+                                <% } %>
+                      </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <% } %>
+      </section>
+    </main>
+    <!-- Footer -->
+    <%- include('./partials/footer.ejs') %>
+</body>
+
+</html>

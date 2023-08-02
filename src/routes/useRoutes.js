@@ -11,6 +11,10 @@ userRoute.get("/g2", middlewarAuth, (req, res) => {
   res.render("g2", { user: req.session.activeUser });
 });
 
+userRoute.get("/appointment", middlewarAuth, (req, res) => {
+  res.render("appointment", { user: req.session.activeUser });
+});
+
 userRoute.get("/g", middlewarAuth, (req, res) => {
   res.render("g", { user: req.session.activeUser });
 });
